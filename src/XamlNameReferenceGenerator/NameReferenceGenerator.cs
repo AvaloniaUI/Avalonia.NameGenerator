@@ -29,14 +29,13 @@ namespace XamlNameReferenceGenerator
 }
 ";
         private const string DebugPath = @"C:\Users\prizr\Documents\GitHub\XamlNameReferenceGenerator\debug.txt";
-        private static readonly INameReferenceXamlParser XamlParser = new XamlXRawNameReferenceXamlParser();
         private static readonly NameReferenceDebugger Debugger = new NameReferenceDebugger(DebugPath);
         private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters |
                              SymbolDisplayGenericsOptions.IncludeTypeConstraints |
-                             SymbolDisplayGenericsOptions.IncludeVariance); 
-        
+                             SymbolDisplayGenericsOptions.IncludeVariance);
+
         public void Initialize(GeneratorInitializationContext context)
         {
             context.RegisterForSyntaxNotifications(() => new NameReferenceSyntaxReceiver());
@@ -48,7 +47,9 @@ namespace XamlNameReferenceGenerator
             if (!(context.SyntaxReceiver is NameReferenceSyntaxReceiver receiver))
                 return;
 
-            var symbols = UnpackAnnotatedTypes((CSharpCompilation) context.Compilation, receiver);
+            var compilation = (CSharpCompilation) context.Compilation;
+            var xamlParser = new XamlXRawNameReferenceXamlParser();
+            var symbols = UnpackAnnotatedTypes(compilation, receiver);
             foreach (var (typeSymbol, additionalNamespaces) in symbols)
             {
                 var relevantXamlFile = context.AdditionalFiles
@@ -57,12 +58,13 @@ namespace XamlNameReferenceGenerator
                         text.Path.EndsWith($"{typeSymbol.Name}.axaml"));
 
                 var sourceCode = Debugger.Debug(
-                    () => GenerateSourceCode(typeSymbol, relevantXamlFile, additionalNamespaces));
+                    () => GenerateSourceCode(xamlParser, typeSymbol, relevantXamlFile, additionalNamespaces));
                 context.AddSource($"{typeSymbol.Name}.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
             }
         }
 
         private static string GenerateSourceCode(
+            INameReferenceXamlParser xamlParser,
             INamedTypeSymbol classSymbol,
             AdditionalText xamlFile,
             IList<string> additionalNamespaces)
@@ -70,7 +72,7 @@ namespace XamlNameReferenceGenerator
             var className = classSymbol.Name;
             var nameSpace = classSymbol.ContainingNamespace.ToDisplayString(SymbolDisplayFormat);
             var namespaces = additionalNamespaces.Select(name => $"using {name};");
-            var namedControls = XamlParser
+            var namedControls = xamlParser
                 .GetNamedControls(xamlFile.GetText()!.ToString())
                 .Select(info => "        " +
                                 $"public {info.TypeName} {info.Name} => " +
