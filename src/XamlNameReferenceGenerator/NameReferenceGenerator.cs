@@ -29,7 +29,7 @@ namespace XamlNameReferenceGenerator
 }
 ";
         private const string DebugPath = @"C:\Users\prizr\Documents\GitHub\XamlNameReferenceGenerator\debug.txt";
-        private static readonly INameReferenceXamlParser XamlParser = new XamlXInternalNameReferenceXamlParser();
+        private static readonly INameReferenceXamlParser XamlParser = new XamlXRawNameReferenceXamlParser();
         private static readonly NameReferenceDebugger Debugger = new NameReferenceDebugger(DebugPath);
         private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,

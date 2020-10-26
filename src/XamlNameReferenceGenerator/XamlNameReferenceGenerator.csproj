@@ -9,6 +9,6 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Link="XamlX\filename" Include="../../external/XamlX/src/XamlX/**/*.cs" />
-        <Compile Remove="../../external/XamlX/src/XamlX/**/SreTypeSystem.cs"/>
+        <Compile Remove="../../external/XamlX/src/XamlX/**/SreTypeSystem.cs" />
     </ItemGroup>
 </Project>

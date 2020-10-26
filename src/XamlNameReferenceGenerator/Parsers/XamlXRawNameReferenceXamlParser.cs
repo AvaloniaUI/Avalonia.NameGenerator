@@ -5,7 +5,7 @@ using XamlX.Parsers;
 
 namespace XamlNameReferenceGenerator.Parsers
 {
-    public class XamlXInternalNameReferenceXamlParser : INameReferenceXamlParser
+    public class XamlXRawNameReferenceXamlParser : INameReferenceXamlParser
     {
         public List<(string TypeName, string Name)> GetNamedControls(string xaml)
         {
