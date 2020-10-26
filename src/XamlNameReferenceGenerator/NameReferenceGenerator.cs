@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using System.Text;
 using Microsoft.CodeAnalysis.CSharp;
+using XamlNameReferenceGenerator.Infrastructure;
 using XamlNameReferenceGenerator.Parsers;
 
 namespace XamlNameReferenceGenerator
@@ -28,8 +29,7 @@ namespace XamlNameReferenceGenerator
     }
 }
 ";
-        private const string DebugPath = @"C:\Users\prizr\Documents\GitHub\XamlNameReferenceGenerator\debug.txt";
-        private static readonly NameReferenceDebugger Debugger = new NameReferenceDebugger(DebugPath);
+        private static readonly PhysicalFileDebugger Debugger = new PhysicalFileDebugger();
         private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(
             typeQualificationStyle: SymbolDisplayTypeQualificationStyle.NameAndContainingTypesAndNamespaces,
             genericsOptions: SymbolDisplayGenericsOptions.IncludeTypeParameters |
@@ -48,7 +48,7 @@ namespace XamlNameReferenceGenerator
                 return;
 
             var compilation = (CSharpCompilation) context.Compilation;
-            var xamlParser = new XamlXCompiledNameReferenceXamlParser(compilation);
+            var xamlParser = new XamlXNameReferenceXamlParser(compilation);
             var symbols = UnpackAnnotatedTypes(compilation, receiver);
             foreach (var (typeSymbol, additionalNamespaces) in symbols)
             {

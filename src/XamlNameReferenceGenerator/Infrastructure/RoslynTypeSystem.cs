@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using XamlX.TypeSystem;
 
-namespace XamlNameReferenceGenerator.Parsers
+namespace XamlNameReferenceGenerator.Infrastructure
 {
     public class RoslynTypeSystem : IXamlTypeSystem
     {
