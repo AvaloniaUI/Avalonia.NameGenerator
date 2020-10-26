@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using XamlX;
 using XamlX.Ast;
@@ -8,6 +7,7 @@ using XamlX.Compiler;
 using XamlX.Emit;
 using XamlX.Parsers;
 using XamlX.Transform;
+using XamlX.Transform.Transformers;
 using XamlX.TypeSystem;
 
 namespace XamlNameReferenceGenerator.Parsers
@@ -30,9 +30,14 @@ namespace XamlNameReferenceGenerator.Parsers
                 new TransformerConfiguration(
                     typeSystem,
                     typeSystem.Assemblies[0],
-                    new XamlLanguageTypeMappings(typeSystem)),
-                new XamlLanguageEmitMappings<object, IXamlEmitResult>(),
-                true);
+                    new XamlLanguageTypeMappings(typeSystem)
+                    {
+                        XmlnsAttributes =
+                        {
+                            typeSystem.GetType("Avalonia.Metadata.XmlnsDefinitionAttribute")
+                        }
+                    })
+                );
 
             compiler.Transform(parsed);
             
@@ -48,27 +53,58 @@ namespace XamlNameReferenceGenerator.Parsers
 
             public IXamlAstNode Visit(IXamlAstNode node)
             {
-                if (node is XamlAstObjectNode element && element.Type is XamlAstXmlTypeReference type)
+                if (node is XamlAstConstructableObjectNode constructableObjectNode)
                 {
-                    Controls.Add((type.Name, $@"{type.XmlNamespace} {node.Line} {node.Position}"));
-                }
+                    foreach (var child in constructableObjectNode.Children)
+                    {
+                        var nameValue = ResolveNameDirectiveOrDefault(child);
+                        if (nameValue == null) continue;
 
+                        var clrType = constructableObjectNode.Type.GetClrType().GetFullName();
+                        var typeNamePair = (clrType, nameValue);
+                        if (!Controls.Contains(typeNamePair))
+                            Controls.Add(typeNamePair);
+                    }
+                }
+                
                 return node;
             }
 
             public void Push(IXamlAstNode node) { }
 
             public void Pop() { }
+            
+            private static string ResolveNameDirectiveOrDefault(IXamlAstNode node) =>
+                node switch
+                {
+                    XamlAstXamlPropertyValueNode propertyValueNode when
+                        propertyValueNode.Property is XamlAstNamePropertyReference reference &&
+                        reference.Name == "Name" &&
+                        propertyValueNode.Values.Count > 0 &&
+                        propertyValueNode.Values[0] is XamlAstTextNode nameNode => nameNode.Text,
+
+                    XamlAstXmlDirective xmlDirective when
+                        xmlDirective.Name == "Name" &&
+                        xmlDirective.Values.Count > 0 &&
+                        xmlDirective.Values[0] is XamlAstTextNode xNameNode => xNameNode.Text,
+
+                    _ => null
+                };
         }
 
         private class MiniCompiler : XamlCompiler<object, IXamlEmitResult>
         {
-            public MiniCompiler(
-                TransformerConfiguration configuration,
-                XamlLanguageEmitMappings<object, IXamlEmitResult> emitMappings,
-                bool fillWithDefaults)
-                : base(configuration, emitMappings, fillWithDefaults)
+            public MiniCompiler(TransformerConfiguration configuration)
+                : base(configuration, new XamlLanguageEmitMappings<object, IXamlEmitResult>(), false)
             {
+                Transformers.Add(new KnownDirectivesTransformer());
+                Transformers.Add(new XamlIntrinsicsTransformer());
+                Transformers.Add(new XArgumentsTransformer());
+                Transformers.Add(new TypeReferenceResolver());
+                Transformers.Add(new MarkupExtensionTransformer());
+                Transformers.Add(new PropertyReferenceResolver());
+                Transformers.Add(new ResolvePropertyValueAddersTransformer());
+                Transformers.Add(new ConstructableObjectTransformer());
             }
 
             protected override XamlEmitContext<object, IXamlEmitResult> InitCodeGen(
