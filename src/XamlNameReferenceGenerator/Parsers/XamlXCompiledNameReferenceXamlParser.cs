@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using XamlX;
+using XamlX.Ast;
 using XamlX.Compiler;
 using XamlX.Emit;
 using XamlX.Parsers;
@@ -12,9 +14,9 @@ namespace XamlNameReferenceGenerator.Parsers
 {
     public class XamlXCompiledNameReferenceXamlParser : INameReferenceXamlParser
     {
-        private readonly IAssemblySymbol _assembly;
+        private readonly CSharpCompilation _compilation;
 
-        public XamlXCompiledNameReferenceXamlParser(IAssemblySymbol assembly) => _assembly = assembly;
+        public XamlXCompiledNameReferenceXamlParser(CSharpCompilation compilation) => _compilation = compilation;
 
         public List<(string TypeName, string Name)> GetNamedControls(string xaml)
         {
@@ -23,19 +25,40 @@ namespace XamlNameReferenceGenerator.Parsers
                 {XamlNamespaces.Blend2008, XamlNamespaces.Blend2008}
             });
             
-            var assembly = new RoslynAssembly(_assembly);
-            var typeSystem = new RoslynTypeSystem(assembly);
+            var typeSystem = new RoslynTypeSystem(_compilation);
             var compiler = new MiniCompiler(
-                new TransformerConfiguration(typeSystem, assembly,
+                new TransformerConfiguration(
+                    typeSystem,
+                    typeSystem.Assemblies[0],
                     new XamlLanguageTypeMappings(typeSystem)),
                 new XamlLanguageEmitMappings<object, IXamlEmitResult>(),
-                false);
+                true);
 
             compiler.Transform(parsed);
-            return new List<(string TypeName, string Name)>
+            
+            var visitor = new MiniVisitor();
+            parsed.Root.Visit(visitor);
+            parsed.Root.VisitChildren(visitor);
+            return visitor.Controls;
+        }
+
+        private class MiniVisitor : IXamlAstVisitor
+        {
+            public List<(string TypeName, string Name)> Controls { get; } = new List<(string TypeName, string Name)>();
+
+            public IXamlAstNode Visit(IXamlAstNode node)
             {
-                ("OK", "OK")
-            };
+                if (node is XamlAstObjectNode element && element.Type is XamlAstXmlTypeReference type)
+                {
+                    Controls.Add((type.Name, $@"{type.XmlNamespace} {node.Line} {node.Position}"));
+                }
+
+                return node;
+            }
+
+            public void Push(IXamlAstNode node) { }
+
+            public void Pop() { }
         }
 
         private class MiniCompiler : XamlCompiler<object, IXamlEmitResult>

@@ -48,7 +48,7 @@ namespace XamlNameReferenceGenerator
                 return;
 
             var compilation = (CSharpCompilation) context.Compilation;
-            var xamlParser = new XamlXRawNameReferenceXamlParser();
+            var xamlParser = new XamlXCompiledNameReferenceXamlParser(compilation);
             var symbols = UnpackAnnotatedTypes(compilation, receiver);
             foreach (var (typeSymbol, additionalNamespaces) in symbols)
             {

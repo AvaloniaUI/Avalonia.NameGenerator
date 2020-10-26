@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using XamlX.TypeSystem;
 
 namespace XamlNameReferenceGenerator.Parsers
@@ -9,7 +11,19 @@ namespace XamlNameReferenceGenerator.Parsers
     {
         private readonly List<IXamlAssembly> _assemblies = new List<IXamlAssembly>();
 
-        public RoslynTypeSystem(RoslynAssembly assembly) => _assemblies.Add(assembly);
+        public RoslynTypeSystem(CSharpCompilation compilation)
+        {
+            _assemblies.Add(new RoslynAssembly(compilation.Assembly));
+
+            var assemblySymbols = compilation
+                .References
+                .Select(compilation.GetAssemblyOrModuleSymbol)
+                .OfType<IAssemblySymbol>()
+                .Select(assembly => new RoslynAssembly(assembly))
+                .ToList();
+
+            _assemblies.AddRange(assemblySymbols);
+        }
 
         public IReadOnlyList<IXamlAssembly> Assemblies => _assemblies;
 
@@ -17,15 +31,25 @@ namespace XamlNameReferenceGenerator.Parsers
 
         public IXamlType FindType(string name)
         {
-            foreach (var assembly in _assemblies) 
-                assembly.FindType(name);
+            foreach (var assembly in _assemblies)
+            {
+                var type = assembly.FindType(name);
+                if (type != null)
+                    return type;
+            }
+            
             return null;
         }
 
         public IXamlType FindType(string name, string assembly)
         {
-            foreach (var assemblyInstance in _assemblies) 
-                assemblyInstance.FindType(name);
+            foreach (var assemblyInstance in _assemblies)
+            {
+                var type = assemblyInstance.FindType(name);
+                if (type != null)
+                    return type;
+            }
+
             return null;
         }
     }
@@ -47,10 +71,11 @@ namespace XamlNameReferenceGenerator.Parsers
                 .Select(data => new RoslynAttribute(data, this))
                 .ToList();
 
-        public IXamlType FindType(string fullName) =>
-            new RoslynType(
-                _symbol.GetTypeByMetadataName(fullName),
-                this);
+        public IXamlType FindType(string fullName)
+        {
+            var type = _symbol.GetTypeByMetadataName(fullName);
+            return type is null ? null : new RoslynType(type, this);
+        }
     }
 
     public class RoslynAttribute : IXamlCustomAttribute
