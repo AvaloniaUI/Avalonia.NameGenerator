@@ -1,7 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace XamlNameReferenceGenerator.Sandbox
+namespace XamlNameReferenceGenerator.Sandbox.Views
 {
     /// <summary>
     /// This is a sample view class with typed x:Name references generated at compile-time using
