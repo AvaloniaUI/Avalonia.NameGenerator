@@ -21,6 +21,7 @@ namespace XamlNameReferenceGenerator.Tests
         private const string NoNamedControls = "NoNamedControls.xml";
         private const string CustomControls = "CustomControls.xml";
         private const string DataTemplates = "DataTemplates.xml";
+        private const string SignUpView = "SignUpView.xml";
         
         [Theory]
         [InlineData(NamedControl)]
@@ -99,6 +100,35 @@ namespace XamlNameReferenceGenerator.Tests
             Assert.Equal("NamedListBox", controls[1].Name);
             Assert.Equal(typeof(TextBox).FullName, controls[0].TypeName);
             Assert.Equal(typeof(ListBox).FullName, controls[1].TypeName);
+        }
+
+        [Fact]
+        public async Task Should_Resolve_Names_From_Complex_Views()
+        {
+            var compilation =
+                CreateAvaloniaCompilation()
+                    .AddSyntaxTrees(
+                        CSharpSyntaxTree.ParseText(
+                            "using Avalonia.Controls;" +
+                            "namespace Controls {" +
+                            "  public class CustomTextBox : TextBox { }" +
+                            "}"));
+            
+            var xaml = await LoadEmbeddedResource(SignUpView);
+            var resolver = new NameResolver(compilation);
+            var controls = resolver.ResolveNames(xaml);
+            
+            Assert.NotEmpty(controls);
+            Assert.Equal(9, controls.Count);
+            Assert.Equal("UserNameTextBox", controls[0].Name);
+            Assert.Equal("UserNameValidation", controls[1].Name);
+            Assert.Equal("PasswordTextBox", controls[2].Name);
+            Assert.Equal("PasswordValidation", controls[3].Name);
+            Assert.Equal("AwesomeListView", controls[4].Name);
+            Assert.Equal("ConfirmPasswordTextBox", controls[5].Name);
+            Assert.Equal("ConfirmPasswordValidation", controls[6].Name);
+            Assert.Equal("SignUpButton", controls[7].Name);
+            Assert.Equal("CompoundValidation", controls[8].Name);
         }
         
         private static CSharpCompilation CreateAvaloniaCompilation(string name = "AvaloniaCompilation2")
