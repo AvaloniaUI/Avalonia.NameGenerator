@@ -42,7 +42,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1
 
     - name: Build
-      run: dotnet msbuild /t:build,pack /maxcpucount /p:NoPackageAnalysis=true /verbosity:minimal /p:Configuration=${{ env.configuration }}
+      run: dotnet build -c ${{ env.configuration }}
       working-directory: src
 
     - name: Run Unit Tests and Generate Coverage
