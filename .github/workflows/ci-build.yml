@@ -28,11 +28,21 @@ jobs:
       with:
         dotnet-version: 5.0.100-rc.2.20479.15
 
-    - name: .NET Version Info
-      run: dotnet --version
+    - name: NBGV
+      id: nbgv
+      uses: dotnet/nbgv@master
+      with:
+        setAllVars: true
+
+    - name: NuGet Restore
+      run: dotnet restore
+      working-directory: src
+      
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1
 
     - name: Build
-      run: dotnet build -c ${{ env.configuration }}
+      run: msbuild /t:build,pack /maxcpucount /p:NoPackageAnalysis=true /verbosity:minimal /p:Configuration=${{ env.configuration }}
       working-directory: src
 
     - name: Run Unit Tests and Generate Coverage
