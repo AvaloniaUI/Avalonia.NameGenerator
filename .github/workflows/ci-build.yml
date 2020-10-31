@@ -45,6 +45,7 @@ jobs:
         output-format: cobertura
         output: '../../artifacts/'
         configuration: ${{ env.configuration }}
+        working-directory: src
 
     - name: Create NuGet Artifacts
       uses: actions/upload-artifact@master
