@@ -6,7 +6,7 @@
                  UseFloatingWatermark="True" />
         <ListBox Name="NamedListBox">
             <ListBox.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:Name="NamedDataTemplate">
                     <TextBox x:Name="TemplatedTextBox"
                              Watermark="Templated input"
                              UseFloatingWatermark="True" />

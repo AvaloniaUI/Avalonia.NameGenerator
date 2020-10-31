@@ -26,8 +26,8 @@ namespace XamlNameReferenceGenerator.Infrastructure
         private MiniCompiler(TransformerConfiguration configuration)
             : base(configuration, new XamlLanguageEmitMappings<object, IXamlEmitResult>(), false)
         {
-            Transformers.Add(new DataTemplateTransformer());
             Transformers.Add(new NameDirectiveTransformer());
+            Transformers.Add(new DataTemplateTransformer());
             Transformers.Add(new KnownDirectivesTransformer());
             Transformers.Add(new XamlIntrinsicsTransformer());
             Transformers.Add(new XArgumentsTransformer());
