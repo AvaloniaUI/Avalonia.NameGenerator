@@ -88,7 +88,7 @@ namespace XamlNameReferenceGenerator.Tests
         [Fact]
         public async Task Should_Not_Resolve_Elements_From_DataTemplates()
         {
-            var xaml = await LoadEmbeddedResource(NoNamedControls);
+            var xaml = await LoadEmbeddedResource(DataTemplates);
             var compilation = CreateAvaloniaCompilation();
             var resolver = new NameResolver(compilation);
             var controls = resolver.ResolveNames(xaml);
