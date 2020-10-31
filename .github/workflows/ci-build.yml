@@ -28,19 +28,6 @@ jobs:
       with:
         dotnet-version: 5.0.100-rc.2.20479.15
 
-    - name: NBGV
-      id: nbgv
-      uses: dotnet/nbgv@master
-      with:
-        setAllVars: true
-
-    - name: NuGet Restore
-      run: dotnet restore
-      working-directory: src
-
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1
-
     - name: .NET Version Info
       run: dotnet --version
 
