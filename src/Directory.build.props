@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <Product>XamlNameReferenceGenerator ($(TargetFramework))</Product>
+        <Product>XamlNameReferenceGenerator</Product>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/worldbeater/XamlNameReferenceGenerator/</PackageProjectUrl>
         <Description>Generates typed x:Name references to Avalonia controls declared in XAML.</Description>
