@@ -14,13 +14,13 @@ namespace XamlNameReferenceGenerator.Tests
 {
     public class NameResolverTests
     {
-        private const string NamedControl = "XamlNameReferenceGenerator.Tests.Samples.NamedControl.xml";
-        private const string NamedControls = "XamlNameReferenceGenerator.Tests.Samples.NamedControls.xml";
-        private const string XNamedControl = "XamlNameReferenceGenerator.Tests.Samples.xNamedControl.xml";
-        private const string XNamedControls = "XamlNameReferenceGenerator.Tests.Samples.xNamedControls.xml";
-        private const string NoNamedControls = "XamlNameReferenceGenerator.Tests.Samples.NoNamedControls.xml";
-        private const string CustomControls = "XamlNameReferenceGenerator.Tests.Samples.CustomControls.xml";
-        private const string DataTemplates = "XamlNameReferenceGenerator.Tests.Samples.DataTemplates.xml";
+        private const string NamedControl = "NamedControl.xml";
+        private const string NamedControls = "NamedControls.xml";
+        private const string XNamedControl = "xNamedControl.xml";
+        private const string XNamedControls = "xNamedControls.xml";
+        private const string NoNamedControls = "NoNamedControls.xml";
+        private const string CustomControls = "CustomControls.xml";
+        private const string DataTemplates = "DataTemplates.xml";
         
         [Theory]
         [InlineData(NamedControl)]
@@ -122,10 +122,14 @@ namespace XamlNameReferenceGenerator.Tests
             return compilation.AddReferences(avaloniaAssemblyReferences);
         }
 
-        private static async Task<string> LoadEmbeddedResource(string resourceName)
+        private static async Task<string> LoadEmbeddedResource(string shortResourceName)
         {
             var assembly = typeof(NameResolverTests).Assembly;
-            await using var stream = assembly.GetManifestResourceStream(resourceName);
+            var fullResourceName = assembly
+                .GetManifestResourceNames()
+                .First(name => name.EndsWith(shortResourceName));
+            
+            await using var stream = assembly.GetManifestResourceStream(fullResourceName);
             using var reader = new StreamReader(stream!);
             return await reader.ReadToEndAsync();
         }
