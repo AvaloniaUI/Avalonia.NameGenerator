@@ -41,6 +41,9 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1
 
+    - name: .NET Version Info
+      run: dotnet --version
+
     - name: Build
       run: dotnet build -c ${{ env.configuration }}
       working-directory: src
