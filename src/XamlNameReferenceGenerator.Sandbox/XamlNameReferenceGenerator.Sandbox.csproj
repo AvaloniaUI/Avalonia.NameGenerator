@@ -12,6 +12,10 @@
         <PackageReference Include="Citrus.Avalonia" Version="1.2.6" />
     </ItemGroup>
     <ItemGroup>
+        <!-- Based on https://github.com/dotnet/roslyn-sdk/issues/524 -->
+        <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.6.0-3.final" PrivateAssets="all" />
+    </ItemGroup>
+    <ItemGroup>
         <Compile Update="**\*.xaml.cs">
             <DependentUpon>%(Filename)</DependentUpon>
         </Compile>
