@@ -5,6 +5,9 @@
         <LangVersion>preview</LangVersion>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
+    <PropertyGroup>
+        <RestoreAdditionalProjectSources>https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet5/nuget/v3/index.json ;$(RestoreAdditionalProjectSources)</RestoreAdditionalProjectSources>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="0.10.0-preview5" />
         <PackageReference Include="Avalonia.Desktop" Version="0.10.0-preview5" />
@@ -13,7 +16,7 @@
     </ItemGroup>
     <ItemGroup>
         <!-- Based on https://github.com/dotnet/roslyn-sdk/issues/524 -->
-        <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.6.0-3.final" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="3.7.0-1.20220.1" PrivateAssets="all" />
     </ItemGroup>
     <ItemGroup>
         <Compile Update="**\*.xaml.cs">
