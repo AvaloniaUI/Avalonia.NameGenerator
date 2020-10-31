@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Shared.PlatformSupport;
+using Avalonia.ReactiveUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using XamlNameReferenceGenerator.Infrastructure;
@@ -18,6 +18,9 @@ namespace XamlNameReferenceGenerator.Tests
         private const string NamedControls = "XamlNameReferenceGenerator.Tests.Samples.NamedControls.xml";
         private const string XNamedControl = "XamlNameReferenceGenerator.Tests.Samples.xNamedControl.xml";
         private const string XNamedControls = "XamlNameReferenceGenerator.Tests.Samples.xNamedControls.xml";
+        private const string NoNamedControls = "XamlNameReferenceGenerator.Tests.Samples.NoNamedControls.xml";
+        private const string CustomControls = "XamlNameReferenceGenerator.Tests.Samples.CustomControls.xml";
+        private const string DataTemplates = "XamlNameReferenceGenerator.Tests.Samples.DataTemplates.xml";
         
         [Theory]
         [InlineData(NamedControl)]
@@ -55,6 +58,49 @@ namespace XamlNameReferenceGenerator.Tests
             Assert.Equal(typeof(Button).FullName, controls[2].TypeName);
         }
 
+        [Fact]
+        public async Task Should_Resolve_Types_From_Avalonia_Markup_File_With_Custom_Controls()
+        {
+            var xaml = await LoadEmbeddedResource(CustomControls);
+            var compilation = CreateAvaloniaCompilation();
+            var resolver = new NameResolver(compilation);
+            var controls = resolver.ResolveNames(xaml);
+
+            Assert.NotEmpty(controls);
+            Assert.Equal(2, controls.Count);
+            Assert.Equal("ClrNamespaceRoutedViewHost", controls[0].Name);
+            Assert.Equal("UriRoutedViewHost", controls[1].Name);
+            Assert.Equal(typeof(RoutedViewHost).FullName, controls[0].TypeName);
+            Assert.Equal(typeof(RoutedViewHost).FullName, controls[1].TypeName);
+        }
+        
+        [Fact]
+        public async Task Should_Not_Resolve_Named_Controls_From_Avalonia_Markup_File_Without_Named_Controls()
+        {
+            var xaml = await LoadEmbeddedResource(NoNamedControls);
+            var compilation = CreateAvaloniaCompilation();
+            var resolver = new NameResolver(compilation);
+            var controls = resolver.ResolveNames(xaml);
+
+            Assert.Empty(controls);
+        }
+
+        [Fact]
+        public async Task Should_Not_Resolve_Elements_From_DataTemplates()
+        {
+            var xaml = await LoadEmbeddedResource(NoNamedControls);
+            var compilation = CreateAvaloniaCompilation();
+            var resolver = new NameResolver(compilation);
+            var controls = resolver.ResolveNames(xaml);
+            
+            Assert.NotEmpty(controls);
+            Assert.Equal(2, controls.Count);
+            Assert.Equal("UserNameTextBox", controls[0].Name);
+            Assert.Equal("NamedListBox", controls[1].Name);
+            Assert.Equal(typeof(TextBox).FullName, controls[0].TypeName);
+            Assert.Equal(typeof(ListBox).FullName, controls[1].TypeName);
+        }
+        
         private static CSharpCompilation CreateAvaloniaCompilation(string name = "AvaloniaCompilation2")
         {
             var compilation = CSharpCompilation
