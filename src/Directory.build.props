@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project>
     <PropertyGroup>
         <Product>XamlNameReferenceGenerator ($(TargetFramework))</Product>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
