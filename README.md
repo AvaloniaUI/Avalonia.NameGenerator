@@ -22,7 +22,13 @@ So in your project file you write the following code:
 </ItemGroup>
 ```
 
-And then you reference the source generator as such:
+And then you reference the source generator by installing a NuGet package:
+
+```
+dotnet add package XamlNameReferenceGenerator
+```
+
+Or, if you are using submodules, reference the generator as such:
 
 ```xml
 <ItemGroup>
@@ -37,7 +43,7 @@ Finally, you declare your view class as `partial` and decorate it with `[Generat
 ```cs
 using Avalonia.Controls;
 
-[GenerateTypedNameReferences] // Coolstuff!
+[GenerateTypedNameReferences] // Note the 'partial' keyword.
 public partial class SignUpView : Window
 {
     public SignUpView()
@@ -61,14 +67,14 @@ namespace XamlNameReferenceGenerator.Sandbox
 {
     partial class SignUpView
     {
-        public XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox UserNameTextBox => this.FindControl<XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox>("UserNameTextBox");
-        public Avalonia.Controls.TextBlock UserNameValidation => this.FindControl<Avalonia.Controls.TextBlock>("UserNameValidation");
-        public Avalonia.Controls.TextBox PasswordTextBox => this.FindControl<Avalonia.Controls.TextBox>("PasswordTextBox");
-        public Avalonia.Controls.TextBlock PasswordValidation => this.FindControl<Avalonia.Controls.TextBlock>("PasswordValidation");
-        public Avalonia.Controls.TextBox ConfirmPasswordTextBox => this.FindControl<Avalonia.Controls.TextBox>("ConfirmPasswordTextBox");
-        public Avalonia.Controls.TextBlock ConfirmPasswordValidation => this.FindControl<Avalonia.Controls.TextBlock>("ConfirmPasswordValidation");
-        public Avalonia.Controls.Button SignUpButton => this.FindControl<Avalonia.Controls.Button>("SignUpButton");
-        public Avalonia.Controls.TextBlock CompoundValidation => this.FindControl<Avalonia.Controls.TextBlock>("CompoundValidation");   
+        internal XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox UserNameTextBox => this.FindControl<XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox>("UserNameTextBox");
+        internal Avalonia.Controls.TextBlock UserNameValidation => this.FindControl<Avalonia.Controls.TextBlock>("UserNameValidation");
+        internal Avalonia.Controls.TextBox PasswordTextBox => this.FindControl<Avalonia.Controls.TextBox>("PasswordTextBox");
+        internal Avalonia.Controls.TextBlock PasswordValidation => this.FindControl<Avalonia.Controls.TextBlock>("PasswordValidation");
+        internal Avalonia.Controls.TextBox ConfirmPasswordTextBox => this.FindControl<Avalonia.Controls.TextBox>("ConfirmPasswordTextBox");
+        internal Avalonia.Controls.TextBlock ConfirmPasswordValidation => this.FindControl<Avalonia.Controls.TextBlock>("ConfirmPasswordValidation");
+        internal Avalonia.Controls.Button SignUpButton => this.FindControl<Avalonia.Controls.Button>("SignUpButton");
+        internal Avalonia.Controls.TextBlock CompoundValidation => this.FindControl<Avalonia.Controls.TextBlock>("CompoundValidation");
     }
 }
 ```
