@@ -1,4 +1,4 @@
-[![NuGet Stats](https://img.shields.io/nuget/v/XamlNameReferenceGenerator.svg)](https://www.nuget.org/packages/XamlNameReferenceGenerator) ![Build](https://github.com/worldbeater/XamlNameReferenceGenerator/workflows/Build/badge.svg)
+[![NuGet Stats](https://img.shields.io/nuget/v/XamlNameReferenceGenerator.svg)](https://www.nuget.org/packages/XamlNameReferenceGenerator) [![downloads](https://img.shields.io/nuget/dt/XamlNameReferenceGenerator)](https://www.nuget.org/packages/XamlNameReferenceGenerator) ![Build](https://github.com/worldbeater/XamlNameReferenceGenerator/workflows/Build/badge.svg) ![License](https://img.shields.io/github/license/worldbeater/XamlNameReferenceGenerator.svg) ![Size](https://img.shields.io/github/repo-size/worldbeater/XamlNameReferenceGenerator.svg)
 
 > **Warning** This tool hasn't been extensively tested, so use at your own risk.
 
