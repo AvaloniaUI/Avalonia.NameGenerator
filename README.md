@@ -1,3 +1,5 @@
+[![NuGet Stats](https://img.shields.io/nuget/v/XamlNameReferenceGenerator.svg)](https://www.nuget.org/packages/XamlNameReferenceGenerator) ![Build](https://github.com/worldbeater/XamlNameReferenceGenerator/workflows/Build/badge.svg)
+
 > **Warning** This tool hasn't been extensively tested, so use at your own risk.
 
 ### C# `SourceGenerator` for Typed Avalonia `x:Name` References 
