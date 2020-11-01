@@ -35,6 +35,8 @@ And then you reference the source generator as such:
 Finally, you declare your view class as `partial` and decorate it with `[GenerateTypedNameReferences]`:
 
 ```cs
+using Avalonia.Controls;
+
 [GenerateTypedNameReferences] // Coolstuff!
 public partial class SignUpView : Window
 {
@@ -57,7 +59,7 @@ using Avalonia.Controls;
 
 namespace XamlNameReferenceGenerator.Sandbox
 {
-    public partial class SignUpView
+    partial class SignUpView
     {
         public XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox UserNameTextBox => this.FindControl<XamlNameReferenceGenerator.Sandbox.Controls.CustomTextBox>("UserNameTextBox");
         public Avalonia.Controls.TextBlock UserNameValidation => this.FindControl<Avalonia.Controls.TextBlock>("UserNameValidation");
