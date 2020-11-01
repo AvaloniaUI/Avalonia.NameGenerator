@@ -18,7 +18,7 @@ namespace XamlNameReferenceGenerator.Infrastructure
                 var isAvaloniaControl = clrType
                     .Interfaces
                     .Any(abstraction => abstraction.IsInterface &&
-                                        abstraction.Name == "IControl");
+                                        abstraction.FullName == "Avalonia.Controls.IControl");
 
                 if (!isAvaloniaControl)
                 {
