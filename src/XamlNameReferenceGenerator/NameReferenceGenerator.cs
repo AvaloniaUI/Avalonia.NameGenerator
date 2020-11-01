@@ -42,11 +42,18 @@ namespace XamlNameReferenceGenerator
         {
             context.AddSource(AttributeFile, SourceText.From(AttributeCode, Encoding.UTF8));
             if (!(context.SyntaxReceiver is NameReferenceSyntaxReceiver receiver))
+            {
                 return;
+            }
 
             var compilation = (CSharpCompilation) context.Compilation;
             var xamlParser = new NameResolver(compilation);
-            var symbols = UnpackAnnotatedTypes(compilation, receiver);
+            var symbols = UnpackAnnotatedTypes(context, compilation, receiver);
+            if (symbols == null)
+            {
+                return;
+            }
+
             foreach (var typeSymbol in symbols)
             {
                 var xamlFileName = $"{typeSymbol.Name}.xaml";
@@ -122,6 +129,7 @@ namespace {nameSpace}
         }
 
         private static IReadOnlyList<INamedTypeSymbol> UnpackAnnotatedTypes(
+            GeneratorExecutionContext context,
             CSharpCompilation existingCompilation,
             NameReferenceSyntaxReceiver nameReferenceSyntaxReceiver)
         {
@@ -141,9 +149,36 @@ namespace {nameSpace}
                     .GetAttributes()
                     .FirstOrDefault(attr => attr.AttributeClass!.Equals(attributeSymbol, SymbolEqualityComparer.Default));
 
-                if (relevantAttribute != null)
+                if (relevantAttribute == null)
+                {
+                    continue;
+                }
+
+                var isPartial = candidateClass
+                    .Modifiers
+                    .Any(modifier => modifier.IsKind(SyntaxKind.PartialKeyword));
+
+                if (isPartial)
                 {
                     symbols.Add(typeSymbol);
+                }
+                else
+                {
+                    var missingPartialKeywordMessage =
+                        $"The type {typeSymbol.Name} should be declared with the 'partial' keyword " +
+                        "as it is annotated with the [GenerateTypedNameReferences] attribute.";
+
+                    context.ReportDiagnostic(
+                        Diagnostic.Create(
+                            new DiagnosticDescriptor(
+                                "AXN0003",
+                                missingPartialKeywordMessage,
+                                missingPartialKeywordMessage,
+                                "Usage",
+                                DiagnosticSeverity.Error,
+                                true),
+                            Location.None));
+                    return null;
                 }
             }
 
