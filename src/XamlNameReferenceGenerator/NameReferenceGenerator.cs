@@ -24,7 +24,7 @@ using System;
 namespace XamlNameReferenceGenerator
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    sealed class GenerateTypedNameReferencesAttribute : Attribute { }
+    internal sealed class GenerateTypedNameReferencesAttribute : Attribute { }
 }
 ";
         private static readonly SymbolDisplayFormat SymbolDisplayFormat = new SymbolDisplayFormat(
