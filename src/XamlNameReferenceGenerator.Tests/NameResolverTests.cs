@@ -64,17 +64,28 @@ namespace XamlNameReferenceGenerator.Tests
         [Fact]
         public async Task Should_Resolve_Types_From_Avalonia_Markup_File_With_Custom_Controls()
         {
+            var compilation =
+                CreateAvaloniaCompilation()
+                    .AddSyntaxTrees(
+                        CSharpSyntaxTree.ParseText(
+                            "using Avalonia.Controls;" +
+                            "namespace Controls {" +
+                            "  public class CustomTextBox : TextBox { }" +
+                            "  public class EvilControl { }" +
+                            "}"));
+
             var xaml = await LoadEmbeddedResource(CustomControls);
-            var compilation = CreateAvaloniaCompilation();
             var resolver = new NameResolver(compilation);
             var controls = resolver.ResolveNames(xaml);
 
             Assert.NotEmpty(controls);
-            Assert.Equal(2, controls.Count);
+            Assert.Equal(3, controls.Count);
             Assert.Equal("ClrNamespaceRoutedViewHost", controls[0].Name);
             Assert.Equal("UriRoutedViewHost", controls[1].Name);
+            Assert.Equal("UserNameTextBox", controls[2].Name);
             Assert.Equal(typeof(RoutedViewHost).FullName, controls[0].TypeName);
             Assert.Equal(typeof(RoutedViewHost).FullName, controls[1].TypeName);
+            Assert.Equal("Controls.CustomTextBox", controls[2].TypeName);
         }
         
         [Fact]
