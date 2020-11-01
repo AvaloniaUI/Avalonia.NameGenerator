@@ -16,8 +16,8 @@ namespace XamlNameReferenceGenerator.Infrastructure
                 foreach (var child in constructableObjectNode.Children)
                 {
                     if (child is XamlAstXamlPropertyValueNode propertyValueNode &&
-                        propertyValueNode.Property is XamlAstClrProperty clrProperty &&
-                        clrProperty.Name == "Name" &&
+                        propertyValueNode.Property is XamlAstNamePropertyReference namedProperty &&
+                        namedProperty.Name == "Name" &&
                         propertyValueNode.Values.Count > 0 &&
                         propertyValueNode.Values[0] is XamlAstTextNode text)
                     {

@@ -22,10 +22,12 @@ namespace XamlNameReferenceGenerator.Tests
         private const string CustomControls = "CustomControls.xml";
         private const string DataTemplates = "DataTemplates.xml";
         private const string SignUpView = "SignUpView.xml";
-        
+        private const string AttachedProps = "AttachedProps.xml";
+
         [Theory]
         [InlineData(NamedControl)]
         [InlineData(XNamedControl)]
+        [InlineData(AttachedProps)]
         public async Task Should_Resolve_Types_From_Avalonia_Markup_File_With_Named_Control(string resource)
         {
             var xaml = await LoadEmbeddedResource(resource);
