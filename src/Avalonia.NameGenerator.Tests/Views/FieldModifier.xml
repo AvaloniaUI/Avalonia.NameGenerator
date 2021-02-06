@@ -1,0 +1,16 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TextBox Name="UserNameTextBox"
+                 x:FieldModifier="Public"
+                 Watermark="Username input"
+                 UseFloatingWatermark="True" />
+        <TextBox Name="PasswordTextBox"
+                 x:FieldModifier="NotPublic"
+                 Watermark="Password input"
+                 UseFloatingWatermark="True" />
+        <Button Name="SignUpButton"
+                x:FieldModifier="Public"
+                Content="Sign up" />
+    </StackPanel>
+</Window>

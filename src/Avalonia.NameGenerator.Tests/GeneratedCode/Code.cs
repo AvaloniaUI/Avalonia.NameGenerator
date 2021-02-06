@@ -15,6 +15,7 @@ namespace Avalonia.NameGenerator.Tests.GeneratedCode
         public const string DataTemplates = "DataTemplates.txt";
         public const string SignUpView = "SignUpView.txt";
         public const string AttachedProps = "AttachedProps.txt";
+        public const string FieldModifier = "FieldModifier.txt";
 
         public static async Task<string> Load(string generatedCodeResourceName)
         {

@@ -19,6 +19,7 @@ namespace Avalonia.NameGenerator.Tests
         [InlineData(Code.DataTemplates, View.DataTemplates)]
         [InlineData(Code.SignUpView, View.SignUpView)]
         [InlineData(Code.AttachedProps, View.AttachedProps)]
+        [InlineData(Code.FieldModifier, View.FieldModifier)]
         public async Task Should_Generate_FindControl_Refs_From_Avalonia_Markup_File(string expectation, string markup)
         {
             var xaml = await View.Load(markup);

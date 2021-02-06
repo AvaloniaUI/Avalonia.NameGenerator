@@ -20,6 +20,7 @@ namespace Avalonia.NameGenerator.Tests.Views
         public const string DataTemplates = "DataTemplates.xml";
         public const string SignUpView = "SignUpView.xml";
         public const string AttachedProps = "AttachedProps.xml";
+        public const string FieldModifier = "FieldModifier.xml";
 
         public static async Task<string> Load(string viewName)
         {
