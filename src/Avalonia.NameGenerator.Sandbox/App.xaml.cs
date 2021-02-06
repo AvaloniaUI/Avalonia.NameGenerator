@@ -10,7 +10,7 @@ namespace Avalonia.NameGenerator.Sandbox
         public override void OnFrameworkInitializationCompleted()
         {
             var view = new SignUpView();
-            // view.UserNameTextBox - this property is private.
+            // view.UserNameValidation - this property is private.
             view.Show();
             base.OnFrameworkInitializationCompleted();
         }
