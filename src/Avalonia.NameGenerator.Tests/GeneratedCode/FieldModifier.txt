@@ -6,8 +6,11 @@ namespace Sample.App
 {
     partial class SampleView
     {
-        public global::Avalonia.Controls.TextBox UserNameTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("UserNameTextBox");
-        internal global::Avalonia.Controls.TextBox PasswordTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("PasswordTextBox");
-        public global::Avalonia.Controls.Button SignUpButton => this.FindControl<global::Avalonia.Controls.Button>("SignUpButton");
+        public global::Avalonia.Controls.TextBox FirstNameTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("FirstNameTextBox");
+        public global::Avalonia.Controls.TextBox LastNameTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("LastNameTextBox");
+        protected global::Avalonia.Controls.TextBox PasswordTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("PasswordTextBox");
+        private global::Avalonia.Controls.TextBox ConfirmPasswordTextBox => this.FindControl<global::Avalonia.Controls.TextBox>("ConfirmPasswordTextBox");
+        internal global::Avalonia.Controls.Button SignUpButton => this.FindControl<global::Avalonia.Controls.Button>("SignUpButton");
+        internal global::Avalonia.Controls.Button RegisterButton => this.FindControl<global::Avalonia.Controls.Button>("RegisterButton");
     }
 }

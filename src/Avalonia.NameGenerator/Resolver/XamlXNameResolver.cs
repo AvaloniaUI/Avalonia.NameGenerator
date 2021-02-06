@@ -74,7 +74,11 @@ namespace Avalonia.NameGenerator.Resolver
 
         private static string TryGetFieldModifier(XamlAstObjectNode objectNode)
         {
-            // Can be either 'Public' or 'NotPublic'.
+            // We follow Xamarin.Forms API behavior in terms of x:FieldModifier here:
+            // https://docs.microsoft.com/en-us/xamarin/xamarin-forms/xaml/field-modifiers
+            // However, by default we use 'internal' field modifier here for generated
+            // x:Name references for historical purposes and WPF compatibility.
+            //
             var fieldModifierType = objectNode
                 .Children
                 .OfType<XamlAstXmlDirective>()
@@ -84,10 +88,13 @@ namespace Avalonia.NameGenerator.Resolver
                 .Select(txt => txt.Text)
                 .FirstOrDefault();
 
-            return fieldModifierType switch
+            return fieldModifierType?.ToLowerInvariant() switch
             {
-                "Public" => "public",
-                "NotPublic" => "internal",
+                "private" => "private",
+                "public" => "public",
+                "protected" => "protected",
+                "internal" => "internal",
+                "notpublic" => "internal",
                 _ => "internal"
             };
         }
