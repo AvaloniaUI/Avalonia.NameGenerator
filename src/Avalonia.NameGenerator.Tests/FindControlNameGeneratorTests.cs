@@ -29,7 +29,9 @@ namespace Avalonia.NameGenerator.Tests
 
             var resolver = new XamlXNameResolver(compilation);
             var generator = new FindControlNameGenerator();
-            var code = generator.GenerateNames("SampleView", "Sample.App", resolver.ResolveNames(xaml));
+            var code = generator
+                .GenerateNames("SampleView", "Sample.App", resolver.ResolveNames(xaml))
+                .Replace("\r", string.Empty);
 
             var expected = await Code.Load(expectation);
             CSharpSyntaxTree.ParseText(code);
