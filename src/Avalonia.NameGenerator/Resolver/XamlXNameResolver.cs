@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia.NameGenerator.Compiler;
 using Microsoft.CodeAnalysis.CSharp;
@@ -55,8 +56,9 @@ namespace Avalonia.NameGenerator.Resolver
                     propertyValueNode.Values.Count > 0 &&
                     propertyValueNode.Values[0] is XamlAstTextNode text)
                 {
+                    var fieldModifier = TryGetFieldModifier(objectNode);
                     var typeName = $@"{clrType.Namespace}.{clrType.Name}";
-                    var resolvedName = new ResolvedName(typeName, text.Text, "internal");
+                    var resolvedName = new ResolvedName(typeName, text.Text, fieldModifier);
                     if (_items.Contains(resolvedName))
                         continue;
                     _items.Add(resolvedName);
@@ -69,5 +71,25 @@ namespace Avalonia.NameGenerator.Resolver
         void IXamlAstVisitor.Push(IXamlAstNode node) { }
 
         void IXamlAstVisitor.Pop() { }
+
+        private static string TryGetFieldModifier(XamlAstObjectNode objectNode)
+        {
+            // Can be either 'Public' or 'NotPublic'.
+            var fieldModifierType = objectNode
+                .Children
+                .OfType<XamlAstXmlDirective>()
+                .Where(dir => dir.Name == "FieldModifier" && dir.Namespace == XamlNamespaces.Xaml2006)
+                .Select(dir => dir.Values[0])
+                .OfType<XamlAstTextNode>()
+                .Select(txt => txt.Text)
+                .FirstOrDefault();
+
+            return fieldModifierType switch
+            {
+                "Public" => "public",
+                "NotPublic" => "internal",
+                _ => "internal"
+            };
+        }
     }
 }
