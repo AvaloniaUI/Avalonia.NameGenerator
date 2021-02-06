@@ -17,6 +17,7 @@
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Views/*.xml" />
+        <EmbeddedResource Include="GeneratedCode/*.txt" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Avalonia.NameGenerator\Avalonia.NameGenerator.csproj" />
