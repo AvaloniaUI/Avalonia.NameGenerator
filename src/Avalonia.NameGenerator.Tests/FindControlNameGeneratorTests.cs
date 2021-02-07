@@ -29,13 +29,11 @@ namespace Avalonia.NameGenerator.Tests
 
             var resolver = new XamlXNameResolver(compilation);
             var generator = new FindControlNameGenerator();
-            var code = generator
-                .GenerateNames("SampleView", "Sample.App", resolver.ResolveNames(xaml))
-                .Replace("\r", string.Empty);
+            var code = generator.GenerateNames("SampleView", "Sample.App", resolver.ResolveNames(xaml));
 
             var expected = await Code.Load(expectation);
             CSharpSyntaxTree.ParseText(code);
-            Assert.Equal(expected, code);
+            Assert.Equal(expected.Replace("\r", string.Empty), code);
         }
     }
 }
