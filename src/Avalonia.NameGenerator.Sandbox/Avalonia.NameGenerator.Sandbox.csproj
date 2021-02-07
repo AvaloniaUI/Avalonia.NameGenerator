@@ -6,9 +6,9 @@
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.0" />
-        <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
-        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+        <PackageReference Include="Avalonia" Version="0.10.999-cibuild0012694-beta" />
+        <PackageReference Include="Avalonia.Desktop" Version="0.10.999-cibuild0012694-beta" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.999-cibuild0012694-beta" />
         <PackageReference Include="Citrus.Avalonia" Version="1.4.3" />
     </ItemGroup>
     <ItemGroup>
@@ -22,8 +22,6 @@
         <AdditionalFiles Include="**\*.xaml" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Avalonia.NameGenerator\Avalonia.NameGenerator.csproj"
-                          OutputItemType="Analyzer"
-                          ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\Avalonia.NameGenerator\Avalonia.NameGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 </Project>
