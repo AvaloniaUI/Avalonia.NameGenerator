@@ -9,9 +9,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{56EF74A3-1D59-42BC-B7EC-2E07C08B9F95}"
 ProjectSection(SolutionItems) = preProject
 	..\version.json = ..\version.json
-	Directory.build.props = Directory.build.props
 	..\.gitignore = ..\.gitignore
 	..\.gitmodules = ..\.gitmodules
+	Directory.Build.props = Directory.Build.props
 EndProjectSection
 EndProject
 Global
