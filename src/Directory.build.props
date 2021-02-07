@@ -11,7 +11,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <RestoreSources>
-            $(RestoreSources);
+            https://api.nuget.org/v3/index.json;
             https://www.myget.org/F/avalonia-ci/api/v2;
         </RestoreSources>
     </PropertyGroup>
