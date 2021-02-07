@@ -11,6 +11,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <RestoreSources>
+            $(RestoreSources);
             https://www.myget.org/F/avalonia-ci/api/v2;
         </RestoreSources>
     </PropertyGroup>
