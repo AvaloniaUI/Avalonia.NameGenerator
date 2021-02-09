@@ -1,5 +1,7 @@
 [![NuGet Stats](https://img.shields.io/nuget/v/XamlNameReferenceGenerator.svg)](https://www.nuget.org/packages/XamlNameReferenceGenerator) [![downloads](https://img.shields.io/nuget/dt/XamlNameReferenceGenerator)](https://www.nuget.org/packages/XamlNameReferenceGenerator) ![Build](https://github.com/avaloniaui/Avalonia.NameGenerator/workflows/Build/badge.svg) ![License](https://img.shields.io/github/license/avaloniaui/Avalonia.NameGenerator.svg) ![Size](https://img.shields.io/github/repo-size/avaloniaui/Avalonia.NameGenerator.svg)
 
+> **Warning** This tool hasn't been extensively tested, so use at your own risk.
+
 ### C# `SourceGenerator` for Typed Avalonia `x:Name` References 
 
 <img src="https://hsto.org/webt/6a/j6/v5/6aj6v5vemc3g6zqcks0wm_irg1s.gif" />
@@ -54,8 +56,6 @@ public partial class SignUpView : Window
 }
 ```
 
-<img src="https://hsto.org/getpro/habr/post_images/d9f/4aa/a1e/d9f4aaa1eb450f5dd2fca66631bc16a0.gif" />
-
 ### Usage (Opt-in)
 
 If you don't want to generate typed `x:Name` references for every window or user control in your assembly, you can always turn off this default behavior by setting the `AvaloniaNameGenerator` MsBuild property to `false` in your C# project file (`.csproj`). Just add the following property group to your `<Project />` tag:
@@ -81,6 +81,8 @@ public partial class SignUpView : Window
     }
 }
 ```
+
+<img src="https://hsto.org/getpro/habr/post_images/d9f/4aa/a1e/d9f4aaa1eb450f5dd2fca66631bc16a0.gif" />
 
 ### What do the generated sources look like?
 
