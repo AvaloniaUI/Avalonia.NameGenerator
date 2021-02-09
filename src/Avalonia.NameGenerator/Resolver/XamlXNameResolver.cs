@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Avalonia.NameGenerator.Compiler;
-using Microsoft.CodeAnalysis.CSharp;
+using Avalonia.NameGenerator.Domain;
 using XamlX;
 using XamlX.Ast;
 using XamlX.Parsers;
@@ -11,15 +10,10 @@ namespace Avalonia.NameGenerator.Resolver
 {
     internal class XamlXNameResolver : INameResolver, IXamlAstVisitor
     {
-        private const string AvaloniaXmlnsAttribute = "Avalonia.Metadata.XmlnsDefinitionAttribute";
         private readonly List<ResolvedName> _items = new();
         private readonly MiniCompiler _compiler;
 
-        public XamlXNameResolver(CSharpCompilation compilation) =>
-            _compiler = MiniCompiler
-                .CreateDefault(
-                    new RoslynTypeSystem(compilation),
-                    AvaloniaXmlnsAttribute);
+        public XamlXNameResolver(MiniCompiler compiler) => _compiler = compiler;
 
         public IReadOnlyList<ResolvedName> ResolveNames(string xaml)
         {

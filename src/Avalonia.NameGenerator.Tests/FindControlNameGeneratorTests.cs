@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Avalonia.NameGenerator.Compiler;
 using Avalonia.NameGenerator.Resolver;
 using Avalonia.NameGenerator.Tests.GeneratedCode;
 using Avalonia.NameGenerator.Tests.Views;
@@ -27,10 +28,14 @@ namespace Avalonia.NameGenerator.Tests
                 View.CreateAvaloniaCompilation()
                     .WithCustomTextBox();
 
-            var resolver = new XamlXNameResolver(compilation);
+            var resolver = new XamlXNameResolver(
+                MiniCompiler.CreateDefault(
+                    new RoslynTypeSystem(compilation),
+                    MiniCompiler.AvaloniaXmlnsDefinitionAttribute));
+
             var generator = new FindControlNameGenerator();
             var code = generator
-                .GenerateNames("SampleView", "Sample.App", resolver.ResolveNames(xaml))
+                .GenerateCode("SampleView", "Sample.App", resolver.ResolveNames(xaml))
                 .Replace("\r", string.Empty);
 
             var expected = await Code.Load(expectation);
