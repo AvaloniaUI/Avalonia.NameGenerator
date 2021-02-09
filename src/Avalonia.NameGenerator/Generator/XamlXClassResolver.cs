@@ -13,14 +13,17 @@ namespace Avalonia.NameGenerator.Generator
     {
         private readonly RoslynTypeSystem _typeSystem;
         private readonly MiniCompiler _compiler;
+        private readonly bool _checkTypeValidity;
         private readonly Action<string> _onTypeInvalid;
         private ResolvedClass _resolvedClass;
 
         public XamlXClassResolver(
             RoslynTypeSystem typeSystem,
             MiniCompiler compiler,
+            bool checkTypeValidity = true,
             Action<string> onTypeInvalid = null)
         {
+            _checkTypeValidity = checkTypeValidity;
             _onTypeInvalid = onTypeInvalid;
             _typeSystem = typeSystem;
             _compiler = compiler;
@@ -61,11 +64,14 @@ namespace Avalonia.NameGenerator.Generator
                     directive.Namespace == XamlNamespaces.Xaml2006 &&
                     directive.Values[0] is XamlAstTextNode text)
                 {
-                    var existingType = _typeSystem.FindType(text.Text);
-                    if (existingType == null)
+                    if (_checkTypeValidity)
                     {
-                        _onTypeInvalid?.Invoke(text.Text);
-                        return node;
+                        var existingType = _typeSystem.FindType(text.Text);
+                        if (existingType == null)
+                        {
+                            _onTypeInvalid?.Invoke(text.Text);
+                            return node;
+                        }
                     }
 
                     var split = text.Text.Split('.');
