@@ -20,7 +20,7 @@ namespace Avalonia.NameGenerator.Generator
         public XamlXClassResolver(
             RoslynTypeSystem typeSystem,
             MiniCompiler compiler,
-            bool checkTypeValidity = true,
+            bool checkTypeValidity = false,
             Action<string> onTypeInvalid = null)
         {
             _checkTypeValidity = checkTypeValidity;
