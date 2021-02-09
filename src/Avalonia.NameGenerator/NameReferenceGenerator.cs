@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 [assembly: InternalsVisibleTo("Avalonia.NameGenerator.Tests")]
-
 namespace Avalonia.NameGenerator
 {
     [Generator]
@@ -29,8 +28,7 @@ namespace Avalonia.NameGenerator
                     new FindControlNameGenerator());
 
             var partials = avaloniaNameGenerator.GenerateNameReferences(context.AdditionalFiles);
-            foreach (var partial in partials)
-                context.AddSource(partial.FileName, partial.Content);
+            foreach (var partial in partials) context.AddSource(partial.FileName, partial.Content);
         }
     }
 }

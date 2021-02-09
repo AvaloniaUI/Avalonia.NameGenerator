@@ -17,6 +17,7 @@ namespace Avalonia.NameGenerator.Generator
 
         public ResolvedClass ResolveClass(string xaml)
         {
+            _resolvedClass = null;
             var parsed = XDocumentXamlParser.Parse(xaml, new Dictionary<string, string>
             {
                 {XamlNamespaces.Blend2008, XamlNamespaces.Blend2008}

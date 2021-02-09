@@ -27,15 +27,17 @@ namespace Avalonia.NameGenerator.Generator
                       file.Path.EndsWith(".axaml")
                 let xaml = file.GetText()!.ToString()
                 let type = _classes.ResolveClass(xaml)
+                where type != null
                 let className = type.ClassName
                 let nameSpace = type.NameSpace
                 select new ResolvedView(className, nameSpace, xaml);
 
             var query =
-                from view in resolveViewsQuery
+                from view in resolveViewsQuery.ToList()
                 let names = _names.ResolveNames(view.Xaml)
                 let code = _code.GenerateCode(view.ClassName, view.NameSpace, names)
-                select new GeneratedPartialClass($"{view.ClassName}.g.cs", code);
+                let fileName = $"{view.ClassName}.g.cs"
+                select new GeneratedPartialClass(fileName, code);
 
             return query.ToList();
         }
