@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.NameGenerator.Compiler;
@@ -10,10 +11,20 @@ namespace Avalonia.NameGenerator.Generator
 {
     internal class XamlXClassResolver : IClassResolver, IXamlAstVisitor
     {
+        private readonly RoslynTypeSystem _typeSystem;
         private readonly MiniCompiler _compiler;
+        private readonly Action<string> _onTypeInvalid;
         private ResolvedClass _resolvedClass;
 
-        public XamlXClassResolver(MiniCompiler compiler) => _compiler = compiler;
+        public XamlXClassResolver(
+            RoslynTypeSystem typeSystem,
+            MiniCompiler compiler,
+            Action<string> onTypeInvalid = null)
+        {
+            _onTypeInvalid = onTypeInvalid;
+            _typeSystem = typeSystem;
+            _compiler = compiler;
+        }
 
         public ResolvedClass ResolveClass(string xaml)
         {
@@ -50,6 +61,13 @@ namespace Avalonia.NameGenerator.Generator
                     directive.Namespace == XamlNamespaces.Xaml2006 &&
                     directive.Values[0] is XamlAstTextNode text)
                 {
+                    var existingType = _typeSystem.FindType(text.Text);
+                    if (existingType == null)
+                    {
+                        _onTypeInvalid?.Invoke(text.Text);
+                        return node;
+                    }
+
                     var split = text.Text.Split('.');
                     var nameSpace = string.Join(".", split.Take(split.Length - 1));
                     var className = split.Last();

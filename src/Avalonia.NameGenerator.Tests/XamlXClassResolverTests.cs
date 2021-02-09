@@ -26,10 +26,10 @@ namespace Avalonia.NameGenerator.Tests
                 .CreateAvaloniaCompilation()
                 .WithCustomTextBox();
 
+            var types = new RoslynTypeSystem(compilation);
             var resolver = new XamlXClassResolver(
-                MiniCompiler.CreateDefault(
-                    new RoslynTypeSystem(compilation),
-                    MiniCompiler.AvaloniaXmlnsDefinitionAttribute));
+                types,
+                MiniCompiler.CreateDefault(types, MiniCompiler.AvaloniaXmlnsDefinitionAttribute));
 
             var resolvedClass = resolver.ResolveClass(xaml);
             Assert.Equal(className, resolvedClass.ClassName);
