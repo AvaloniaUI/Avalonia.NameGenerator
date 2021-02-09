@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using Avalonia.NameGenerator.Compiler;
 using Avalonia.NameGenerator.Domain;
 using Avalonia.NameGenerator.Generator;
@@ -26,8 +27,31 @@ namespace Avalonia.NameGenerator
                     new XamlXNameResolver(compiler),
                     new FindControlNameGenerator());
 
-            var partials = avaloniaNameGenerator.GenerateNameReferences(context.AdditionalFiles);
-            foreach (var partial in partials) context.AddSource(partial.FileName, partial.Content);
+            try
+            {
+                var partials = avaloniaNameGenerator.GenerateNameReferences(context.AdditionalFiles);
+                foreach (var partial in partials) context.AddSource(partial.FileName, partial.Content);
+            }
+            catch (Exception exception)
+            {
+                ReportUnhandledError(context, exception);
+            }
+        }
+
+        private static void ReportUnhandledError(GeneratorExecutionContext context, Exception error)
+        {
+            const string message = "Unhandled exception occured while generating typed Name references. " +
+                                   "Please file an issue: https://github.com/avaloniaui/avalonia.namegenerator";
+            context.ReportDiagnostic(
+                Diagnostic.Create(
+                    new DiagnosticDescriptor(
+                        "AXN0002",
+                        message,
+                        error.ToString(),
+                        "Usage",
+                        DiagnosticSeverity.Warning,
+                        true),
+                    Location.None));
         }
 
         private static void ReportInvalidType(GeneratorExecutionContext context, string typeName)
@@ -37,7 +61,7 @@ namespace Avalonia.NameGenerator
             context.ReportDiagnostic(
                 Diagnostic.Create(
                     new DiagnosticDescriptor(
-                        "AXN0003",
+                        "AXN0001",
                         message,
                         message,
                         "Usage",
