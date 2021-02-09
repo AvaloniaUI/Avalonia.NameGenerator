@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Avalonia.NameGenerator.Compiler;
-using Avalonia.NameGenerator.Resolver;
+using Avalonia.NameGenerator.Generator;
 using Avalonia.NameGenerator.Tests.GeneratedCode;
 using Avalonia.NameGenerator.Tests.Views;
 using Microsoft.CodeAnalysis.CSharp;

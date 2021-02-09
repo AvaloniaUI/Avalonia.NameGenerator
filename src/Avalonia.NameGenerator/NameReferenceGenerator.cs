@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using Avalonia.NameGenerator.Compiler;
 using Avalonia.NameGenerator.Domain;
+using Avalonia.NameGenerator.Generator;
 using Microsoft.CodeAnalysis;
-using Avalonia.NameGenerator.Resolver;
 using Microsoft.CodeAnalysis.CSharp;
 
 [assembly: InternalsVisibleTo("Avalonia.NameGenerator.Tests")]
@@ -12,7 +12,6 @@ namespace Avalonia.NameGenerator
     [Generator]
     public class NameReferenceGenerator : ISourceGenerator
     {
-        
         public void Initialize(GeneratorInitializationContext context) { }
 
         public void Execute(GeneratorExecutionContext context)

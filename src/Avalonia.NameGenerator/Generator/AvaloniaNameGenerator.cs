@@ -3,7 +3,7 @@ using System.Linq;
 using Avalonia.NameGenerator.Domain;
 using Microsoft.CodeAnalysis;
 
-namespace Avalonia.NameGenerator.Resolver
+namespace Avalonia.NameGenerator.Generator
 {
     internal class AvaloniaNameGenerator : INameGenerator
     {

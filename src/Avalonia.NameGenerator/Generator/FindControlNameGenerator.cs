@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Avalonia.NameGenerator.Domain;
 
-namespace Avalonia.NameGenerator.Resolver
+namespace Avalonia.NameGenerator.Generator
 {
     internal class FindControlNameGenerator : ICodeGenerator
     {

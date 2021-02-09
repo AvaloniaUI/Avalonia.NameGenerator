@@ -6,7 +6,7 @@ using XamlX;
 using XamlX.Ast;
 using XamlX.Parsers;
 
-namespace Avalonia.NameGenerator.Resolver
+namespace Avalonia.NameGenerator.Generator
 {
     internal class XamlXClassResolver : IClassResolver, IXamlAstVisitor
     {

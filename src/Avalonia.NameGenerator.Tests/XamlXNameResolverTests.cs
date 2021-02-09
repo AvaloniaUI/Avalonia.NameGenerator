@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.NameGenerator.Compiler;
-using Avalonia.NameGenerator.Resolver;
+using Avalonia.NameGenerator.Generator;
 using Avalonia.ReactiveUI;
 using Avalonia.NameGenerator.Tests.Views;
 using Xunit;
