@@ -2,9 +2,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Avalonia.NameGenerator.Tests.GeneratedCode
+namespace Avalonia.NameGenerator.Tests.OnlyProperties.GeneratedCode
 {
-    public class Code
+    public static class OnlyPropertiesCode
     {
         public const string NamedControl = "NamedControl.txt";
         public const string NamedControls = "NamedControls.txt";

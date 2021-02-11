@@ -15,6 +15,26 @@
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
     </ItemGroup>
     <ItemGroup>
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\AttachedProps.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\CustomControls.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\DataTemplates.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\FieldModifier.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\NamedControl.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\NamedControls.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\NoNamedControls.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\SignUpView.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\xNamedControl.txt" />
+        <EmbeddedResource Include="InitializeComponent\GeneratedCode\xNamedControls.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\AttachedProps.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\CustomControls.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\DataTemplates.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\FieldModifier.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\NamedControl.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\NamedControls.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\NoNamedControls.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\SignUpView.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\xNamedControl.txt" />
+        <EmbeddedResource Include="OnlyProperties\GeneratedCode\xNamedControls.txt" />
         <EmbeddedResource Include="Views/*.xml" />
         <EmbeddedResource Include="GeneratedCode/*.txt" />
     </ItemGroup>
