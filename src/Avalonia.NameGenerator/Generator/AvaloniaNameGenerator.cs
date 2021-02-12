@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Avalonia.NameGenerator.Domain;
 using Microsoft.CodeAnalysis;
 
@@ -8,13 +7,13 @@ namespace Avalonia.NameGenerator.Generator
 {
     internal class AvaloniaNameGenerator : INameGenerator
     {
-        private readonly GlobPattern _pathPattern;
+        private readonly IGlobPattern _pathPattern;
         private readonly IViewResolver _classes;
         private readonly INameResolver _names;
         private readonly ICodeGenerator _code;
 
         public AvaloniaNameGenerator(
-            GlobPattern pathPattern,
+            IGlobPattern pathPattern,
             IViewResolver classes,
             INameResolver names,
             ICodeGenerator code)

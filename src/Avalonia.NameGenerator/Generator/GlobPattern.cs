@@ -1,8 +1,9 @@
 using System.Text.RegularExpressions;
+using Avalonia.NameGenerator.Domain;
 
 namespace Avalonia.NameGenerator.Generator
 {
-    public class GlobPattern
+    public class GlobPattern : IGlobPattern
     {
         private const RegexOptions GlobOptions = RegexOptions.IgnoreCase | RegexOptions.Singleline;
         private readonly Regex _regex;

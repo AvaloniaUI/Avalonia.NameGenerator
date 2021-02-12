@@ -17,5 +17,16 @@ namespace Avalonia.NameGenerator.Tests
         {
             Assert.Equal(matches, new GlobPattern(pattern).Matches(value));
         }
+
+        [Theory]
+        [InlineData("Views/SignUpView.xaml", true, new[] { "*.xaml", "Views/*" })]
+        [InlineData("Views/SignUpView.paml", false, new[] { "*.xaml", "Views/*" })]
+        [InlineData("Extensions/SignUpView.paml", false, new[] { "*.xaml", "Views/*" })]
+        [InlineData("anything", true, new[] { "*", "*" })]
+        [InlineData("anything", false, new[] { "", "" })]
+        public void Should_Match_Glob_Pattern_Groups(string value, bool matches, string[] patterns)
+        {
+            Assert.Equal(matches, new GlobPatternGroup(patterns).Matches(value));
+        }
     }
 }

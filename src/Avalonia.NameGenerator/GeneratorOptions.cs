@@ -60,9 +60,18 @@ namespace Avalonia.NameGenerator
             }
         }
 
-        public string AvaloniaNameGeneratorFilterByPath =>
-            _context.GetMSBuildProperty(
-                nameof(BuildProperties.AvaloniaNameGeneratorFilterByPath),
-                "*");
+        public string[] AvaloniaNameGeneratorFilterByPath
+        {
+            get
+            {
+                var propertyValue = _context.GetMSBuildProperty(
+                    nameof(BuildProperties.AvaloniaNameGeneratorFilterByPath),
+                    "*");
+
+                if (propertyValue.Contains(";"))
+                    return propertyValue.Split(';');
+                return new[] {propertyValue};
+            }
+        }
     }
 }
