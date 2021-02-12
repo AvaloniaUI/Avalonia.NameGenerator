@@ -4,7 +4,7 @@
     <CompilerVisibleProperty Include="AvaloniaNameGeneratorBehavior" />
   </ItemGroup>
   <PropertyGroup>
-    <AvaloniaNameGeneratorBehavior Condition="'$(AvaloniaNameGeneratorBehavior)' == ''">PropertyOnly</AvaloniaNameGeneratorBehavior>
+    <AvaloniaNameGeneratorBehavior Condition="'$(AvaloniaNameGeneratorBehavior)' == ''">OnlyProperties</AvaloniaNameGeneratorBehavior>
   </PropertyGroup>
   <Target Name="_InjectAdditionalFiles" BeforeTargets="GenerateMSBuildEditorConfigFileShouldRun">
     <ItemGroup>
