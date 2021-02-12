@@ -22,7 +22,7 @@ namespace Avalonia.NameGenerator.Tests.InitializeComponent.GeneratedCode
             var assembly = typeof(XamlXNameResolverTests).Assembly;
             var fullResourceName = assembly
                 .GetManifestResourceNames()
-                .First(name => name.EndsWith(generatedCodeResourceName));
+                .First(name => name.Contains("InitializeComponent") && name.EndsWith(generatedCodeResourceName));
 
             await using var stream = assembly.GetManifestResourceStream(fullResourceName);
             using var reader = new StreamReader(stream!);

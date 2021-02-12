@@ -1,5 +1,6 @@
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Avalonia.NameGenerator.Tests.OnlyProperties.GeneratedCode
@@ -22,8 +23,8 @@ namespace Avalonia.NameGenerator.Tests.OnlyProperties.GeneratedCode
             var assembly = typeof(XamlXNameResolverTests).Assembly;
             var fullResourceName = assembly
                 .GetManifestResourceNames()
-                .First(name => name.EndsWith(generatedCodeResourceName));
-
+                .First(name => name.Contains("OnlyProperties") && name.EndsWith(generatedCodeResourceName));
+            
             await using var stream = assembly.GetManifestResourceStream(fullResourceName);
             using var reader = new StreamReader(stream!);
             return await reader.ReadToEndAsync();
