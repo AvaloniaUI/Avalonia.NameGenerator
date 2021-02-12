@@ -39,8 +39,6 @@ namespace Avalonia.NameGenerator.Generator
                     propertyValueNode.Values.Count > 0 &&
                     propertyValueNode.Values[0] is XamlAstTextNode text)
                 {
-                    
-                   
                     var fieldModifier = TryGetFieldModifier(objectNode);
                     var typeName = $@"{clrType.Namespace}.{clrType.Name}";
                     var resolvedName = new ResolvedName(typeName, text.Text, fieldModifier);
