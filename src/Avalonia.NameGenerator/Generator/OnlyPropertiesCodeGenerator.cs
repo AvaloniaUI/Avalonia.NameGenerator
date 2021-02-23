@@ -6,7 +6,7 @@ namespace Avalonia.NameGenerator.Generator
 {
     internal class OnlyPropertiesCodeGenerator : ICodeGenerator
     {
-        public string GenerateCode(string className, string nameSpace, IEnumerable<ResolvedName> names)
+        public string GenerateCode(string className, string nameSpace, ControlType type, IEnumerable<ResolvedName> names)
         {
             var namedControls = names
                 .Select(info => "        " +

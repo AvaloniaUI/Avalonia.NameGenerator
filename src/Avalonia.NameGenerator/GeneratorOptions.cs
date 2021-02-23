@@ -35,13 +35,15 @@ namespace Avalonia.NameGenerator
         {
             get
             {
+                var defaultBehavior = Behavior.OnlyProperties;
+
                 var propertyValue = _context
                     .GetMSBuildProperty(
                         nameof(BuildProperties.AvaloniaNameGeneratorBehavior),
-                        nameof(Behavior.OnlyProperties));
+                        defaultBehavior.ToString());
 
                 if (!Enum.TryParse(propertyValue, true, out Behavior behavior))
-                    return Behavior.OnlyProperties;
+                    return defaultBehavior;
                 return behavior;
             }
         }
