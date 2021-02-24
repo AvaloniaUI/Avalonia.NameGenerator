@@ -18,10 +18,6 @@ namespace Sample.App
                 AvaloniaXamlLoader.Load(this);
             }
 
-#if DEBUG
-            this.AttachDevTools();
-#endif
-
             ClrNamespaceRoutedViewHost = this.FindControl<global::Avalonia.ReactiveUI.RoutedViewHost>("ClrNamespaceRoutedViewHost");
             UriRoutedViewHost = this.FindControl<global::Avalonia.ReactiveUI.RoutedViewHost>("UriRoutedViewHost");
             UserNameTextBox = this.FindControl<global::Controls.CustomTextBox>("UserNameTextBox");

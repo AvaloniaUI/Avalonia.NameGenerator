@@ -8,19 +8,22 @@ namespace Sample.App
     partial class SampleView
     {
         internal global::Avalonia.Controls.TextBox UserNameTextBox;
-        internal global::Avalonia.Controls.TextBox PasswordTextBox;
-        internal global::Avalonia.Controls.Button SignUpButton;
 
-        public void InitializeComponent(bool loadXaml = true)
+        public void InitializeComponent(bool loadXaml = true, bool attachDevTools = true)
         {
             if (loadXaml)
             {
                 AvaloniaXamlLoader.Load(this);
             }
 
+#if DEBUG
+            if(attachDevTools)
+            {
+                this.AttachDevTools();
+            }          
+#endif
+
             UserNameTextBox = this.FindControl<global::Avalonia.Controls.TextBox>("UserNameTextBox");
-            PasswordTextBox = this.FindControl<global::Avalonia.Controls.TextBox>("PasswordTextBox");
-            SignUpButton = this.FindControl<global::Avalonia.Controls.Button>("SignUpButton");
         }
     }
 }

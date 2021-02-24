@@ -18,10 +18,6 @@ namespace Sample.App
                 AvaloniaXamlLoader.Load(this);
             }
 
-#if DEBUG
-            this.AttachDevTools();
-#endif
-
             UserNameTextBox = this.FindControl<global::Avalonia.Controls.TextBox>("UserNameTextBox");
             PasswordTextBox = this.FindControl<global::Avalonia.Controls.TextBox>("PasswordTextBox");
             SignUpButton = this.FindControl<global::Avalonia.Controls.Button>("SignUpButton");
