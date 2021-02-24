@@ -12,17 +12,20 @@ namespace Avalonia.NameGenerator.Tests.InitializeComponent
     public class InitializeComponentTests
     {
         [Theory]
-        [InlineData(InitializeComponentCode.NamedControl, View.NamedControl, true)]
-        [InlineData(InitializeComponentCode.NamedControls, View.NamedControls, true)]
-        [InlineData(InitializeComponentCode.XNamedControl, View.XNamedControl, true)]
-        [InlineData(InitializeComponentCode.XNamedControls, View.XNamedControls, true)]
-        [InlineData(InitializeComponentCode.NoNamedControls, View.NoNamedControls, true)]
-        [InlineData(InitializeComponentCode.CustomControls, View.CustomControls, true)]
-        [InlineData(InitializeComponentCode.DataTemplates, View.DataTemplates, true)]
-        [InlineData(InitializeComponentCode.SignUpView, View.SignUpView, true)]
-        [InlineData(InitializeComponentCode.AttachedProps, View.AttachedProps, true)]
-        [InlineData(InitializeComponentCode.FieldModifier, View.FieldModifier, true)]
+        [InlineData(InitializeComponentCode.NamedControl, View.NamedControl, false)]
+        [InlineData(InitializeComponentCode.NamedControls, View.NamedControls, false)]
+        [InlineData(InitializeComponentCode.XNamedControl, View.XNamedControl, false)]
+        [InlineData(InitializeComponentCode.XNamedControls, View.XNamedControls, false)]
+        [InlineData(InitializeComponentCode.NoNamedControls, View.NoNamedControls, false)]
+        [InlineData(InitializeComponentCode.CustomControls, View.CustomControls, false)]
+        [InlineData(InitializeComponentCode.DataTemplates, View.DataTemplates, false)]
+        [InlineData(InitializeComponentCode.SignUpView, View.SignUpView, false)]
+        [InlineData(InitializeComponentCode.FieldModifier, View.FieldModifier, false)]
+        [InlineData(InitializeComponentCode.AttachedPropsWithDevTools, View.AttachedProps, true)]
+        [InlineData(InitializeComponentCode.AttachedProps, View.AttachedProps, false)]
         [InlineData(InitializeComponentCode.ControlWithoutWindow, View.ControlWithoutWindow, true)]
+        [InlineData(InitializeComponentCode.ControlWithoutWindow, View.ControlWithoutWindow, false)]
+        
         public async Task Should_Generate_FindControl_Refs_From_Avalonia_Markup_File(
             string expectation,
             string markup,
@@ -48,7 +51,7 @@ namespace Avalonia.NameGenerator.Tests.InitializeComponent
             var generator = new InitializeComponentCodeGenerator(types);
 
             var code = generator
-                .GenerateCode("SampleView", "Sample.App",  classInfo.ControlType, names)
+                .GenerateCode("SampleView", "Sample.App",  classInfo.XamlType, names)
                 .Replace("\r", string.Empty);
 
             var expected = await InitializeComponentCode.Load(expectation);
