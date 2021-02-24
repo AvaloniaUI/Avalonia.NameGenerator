@@ -41,7 +41,7 @@ namespace Avalonia.NameGenerator.Tests.OnlyProperties
 
             var generator = new OnlyPropertiesCodeGenerator();
             var code = generator
-                .GenerateCode("SampleView", "Sample.App",  classInfo.ControlType, names)
+                .GenerateCode("SampleView", "Sample.App",  classInfo.XamlType, names)
                 .Replace("\r", string.Empty);
 
             var expected = await OnlyPropertiesCode.Load(expectation);

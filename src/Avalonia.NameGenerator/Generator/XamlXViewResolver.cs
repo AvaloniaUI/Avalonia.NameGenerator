@@ -59,14 +59,6 @@ namespace Avalonia.NameGenerator.Generator
             if (!isAvaloniaControl)
                 return node;
 
-            var type = clrType;
-            bool isWindow;
-            do
-            {
-                isWindow = type.FullName == "Avalonia.Controls.Window";
-                type = type.BaseType;
-            } while (!isWindow && type != null);
-            
             foreach (var child in objectNode.Children)
             {
                 if (child is XamlAstXmlDirective directive &&
@@ -89,7 +81,7 @@ namespace Avalonia.NameGenerator.Generator
                     var className = split.Last();
                     
                     
-                    _resolvedClass = new ResolvedView(className, new ControlType(clrType.Name, clrType.FullName, isWindow), nameSpace, _xaml);
+                    _resolvedClass = new ResolvedView(className, clrType, nameSpace, _xaml);
                     return node;
                 }
             }

@@ -1,5 +1,6 @@
 using System;
 using XamlX.Ast;
+using XamlX.TypeSystem;
 
 namespace Avalonia.NameGenerator.Domain
 {
@@ -8,5 +9,5 @@ namespace Avalonia.NameGenerator.Domain
         ResolvedView ResolveView(string xaml);
     }
 
-    internal record ResolvedView(string ClassName, ControlType ControlType, string Namespace, XamlDocument Xaml);
+    internal record ResolvedView(string ClassName, IXamlType XamlType, string Namespace, XamlDocument Xaml);
 }

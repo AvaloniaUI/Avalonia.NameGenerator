@@ -52,13 +52,14 @@ namespace Avalonia.NameGenerator
         {
             get
             {
+                var defaultFieldModifier = DefaultFieldModifier.Internal;
                 var propertyValue = _context
                     .GetMSBuildProperty(
                         nameof(BuildProperties.AvaloniaNameGeneratorDefaultFieldModifier),
-                        nameof(DefaultFieldModifier.Internal));
+                        defaultFieldModifier.ToString());
 
                 if (!Enum.TryParse(propertyValue, true, out DefaultFieldModifier modifier))
-                    return DefaultFieldModifier.Internal;
+                    return defaultFieldModifier;
                 return modifier;
             }
         }
