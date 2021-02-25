@@ -17,7 +17,7 @@ namespace Sample.App
             }
 
 #if DEBUG
-            if(attachDevTools)
+            if (attachDevTools)
             {
                 this.AttachDevTools();
             }          
