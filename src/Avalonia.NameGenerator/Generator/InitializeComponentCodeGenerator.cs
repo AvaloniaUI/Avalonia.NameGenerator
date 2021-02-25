@@ -9,7 +9,7 @@ namespace Avalonia.NameGenerator.Generator
         private readonly bool _diagnosticsAreConnected;
         private const string AttachDevToolsCodeBlock = @"
 #if DEBUG
-            if(attachDevTools)
+            if (attachDevTools)
             {
                 this.AttachDevTools();
             }          
@@ -21,19 +21,6 @@ namespace Avalonia.NameGenerator.Generator
             _diagnosticsAreConnected = types.FindAssembly("Avalonia.Diagnostics") != null;
         }
 
-        public bool IsWindow(IXamlType XamlType)
-        {
-            var type = XamlType;
-            bool isWindow;
-            do
-            {
-                isWindow = type.FullName == "Avalonia.Controls.Window";
-                type = type.BaseType;
-            } while (!isWindow && type != null);
-
-            return isWindow;
-        }
-        
         public string GenerateCode(string className, string nameSpace, IXamlType XamlType, IEnumerable<ResolvedName> names)
         {
             var properties = new List<string>();
@@ -57,18 +44,31 @@ namespace {nameSpace}
     {{
 {string.Join("\n", properties)}
 
-        public void InitializeComponent(bool loadXaml = true{(attachDevTools?", bool attachDevTools = true": string.Empty)})
+        public void InitializeComponent(bool loadXaml = true{(attachDevTools ? ", bool attachDevTools = true" : string.Empty)})
         {{
             if (loadXaml)
             {{
                 AvaloniaXamlLoader.Load(this);
             }}
-{(attachDevTools? AttachDevToolsCodeBlock : string.Empty)}
+{(attachDevTools ? AttachDevToolsCodeBlock : string.Empty)}
 {string.Join("\n", initializations)}
         }}
     }}
 }}
 ";
+        }
+        
+        private bool IsWindow(IXamlType XamlType)
+        {
+            var type = XamlType;
+            bool isWindow;
+            do
+            {
+                isWindow = type.FullName == "Avalonia.Controls.Window";
+                type = type.BaseType;
+            } while (!isWindow && type != null);
+
+            return isWindow;
         }
     }
 }

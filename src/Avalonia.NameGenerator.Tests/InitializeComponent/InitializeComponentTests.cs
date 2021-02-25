@@ -25,7 +25,6 @@ namespace Avalonia.NameGenerator.Tests.InitializeComponent
         [InlineData(InitializeComponentCode.AttachedProps, View.AttachedProps, false)]
         [InlineData(InitializeComponentCode.ControlWithoutWindow, View.ControlWithoutWindow, true)]
         [InlineData(InitializeComponentCode.ControlWithoutWindow, View.ControlWithoutWindow, false)]
-        
         public async Task Should_Generate_FindControl_Refs_From_Avalonia_Markup_File(
             string expectation,
             string markup,
