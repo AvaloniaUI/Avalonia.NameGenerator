@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+
 using Avalonia.NameGenerator.Domain;
+
 using XamlX;
 using XamlX.Ast;
 
@@ -47,7 +50,17 @@ internal class XamlXNameResolver : INameResolver, IXamlAstVisitor
                 propertyValueNode.Values[0] is XamlAstTextNode text)
             {
                 var fieldModifier = TryGetFieldModifier(objectNode);
-                var typeName = $@"{clrType.Namespace}.{clrType.Name}";
+                string typeName;
+
+                if (clrType.GenericArguments.Count > 0)
+                {
+                    typeName = $@"{clrType.Namespace}.{clrType.Name}<{string.Join(", ", clrType.GenericArguments.Select(a => $"global::{a.FullName}"))}>";
+                }
+                else
+                {
+                    typeName = $@"{clrType.Namespace}.{clrType.Name}";
+                }
+
                 var resolvedName = new ResolvedName(typeName, text.Text, fieldModifier);
                 if (_items.Contains(resolvedName))
                     continue;
