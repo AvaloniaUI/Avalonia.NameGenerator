@@ -6,6 +6,7 @@ using Avalonia.NameGenerator.Domain;
 using XamlX;
 using XamlX.Ast;
 using XamlX.Parsers;
+using XamlX.TypeSystem;
 
 namespace Avalonia.NameGenerator.Generator;
 
@@ -56,13 +57,26 @@ internal class XamlXViewResolver : IViewResolver, IXamlAstVisitor
         }
     }
 
+    private bool IsAvaloniaControl(IXamlType clrType)
+    {
+		// Check for the base type since IControl interface is removed.
+		// https://github.com/AvaloniaUI/Avalonia/pull/9553
+		if (clrType.FullName == "Avalonia.Controls.Control")
+			return true;
+
+		if (clrType.BaseType != null)
+			return IsAvaloniaControl(clrType.BaseType);
+
+		return false;
+    }
+
     IXamlAstNode IXamlAstVisitor.Visit(IXamlAstNode node)
     {
         if (node is not XamlAstObjectNode objectNode)
             return node;
 
         var clrType = objectNode.Type.GetClrType();
-        var isAvaloniaControl = clrType
+        var isAvaloniaControl = IsAvaloniaControl(clrType) || clrType
             .Interfaces
             .Any(abstraction => abstraction.IsInterface &&
                                 abstraction.FullName == "Avalonia.Controls.IControl");
