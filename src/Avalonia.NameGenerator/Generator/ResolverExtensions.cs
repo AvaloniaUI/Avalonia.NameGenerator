@@ -11,7 +11,7 @@ internal static class ResolverExtensions
 
     private static bool HasStyledElementBaseType(this IXamlType clrType)
     {
-        // Check for the base type since IControl interface is removed.
+        // Check for the base type since IStyledElement interface is removed.
         // https://github.com/AvaloniaUI/Avalonia/pull/9553
         if (clrType.FullName == "Avalonia.StyledElement")
             return true;
