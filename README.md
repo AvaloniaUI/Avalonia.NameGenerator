@@ -1,3 +1,5 @@
+> **Warning** The development of this package has been [**moved**](https://github.com/AvaloniaUI/Avalonia/pull/10407) to the [main AvaloniaUI repository](https://github.com/avaloniaUI/Avalonia). Please consider opening issues or pull requests in the [main AvaloniaUI repository](https://github.com/avaloniaUI/Avalonia). Head over to [AvaloniaUI Gitter](https://gitter.im/AvaloniaUI/Avalonia) or check [AvaloniaUI Discussions](https://github.com/AvaloniaUI/Avalonia/discussions) if you have any questions regarding the migration process.
+
 [![NuGet Stats](https://img.shields.io/nuget/v/XamlNameReferenceGenerator.svg)](https://www.nuget.org/packages/XamlNameReferenceGenerator) [![downloads](https://img.shields.io/nuget/dt/XamlNameReferenceGenerator)](https://www.nuget.org/packages/XamlNameReferenceGenerator) ![Build](https://github.com/avaloniaui/Avalonia.NameGenerator/workflows/Build/badge.svg) ![License](https://img.shields.io/github/license/avaloniaui/Avalonia.NameGenerator.svg) ![Size](https://img.shields.io/github/repo-size/avaloniaui/Avalonia.NameGenerator.svg)
 
 ### C# `SourceGenerator` for Typed Avalonia `x:Name` References 
